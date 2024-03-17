@@ -59,7 +59,6 @@ static void set_callbacks(GLFWwindow* window) {
 
 GLFWwindow* init() {
   glfwInit();
-  const auto version = get_glfw_version();
 
   GLFWwindow* window =
       glfwCreateWindow(WIDTH, HEIGHT, "GL Stuff Example", NULL, NULL);
