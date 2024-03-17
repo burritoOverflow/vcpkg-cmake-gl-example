@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <iostream>
 
 #include "glutil.h"
@@ -7,10 +8,13 @@ int main() {
   std::cout << "OpenGL version: " << glutil::get_open_gl_version() << '\n';
 
   while (!glfwWindowShouldClose(window)) {
+    glClearColor(0.25f, 0.25f, 0.25f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
     glfwSwapBuffers(window);
     glfwPollEvents();
   }
 
   glfwTerminate();
-  return 0;
+  return EXIT_SUCCESS;
 }
