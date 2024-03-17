@@ -1,4 +1,5 @@
 // clang-format off
+#include <cstdlib>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 // clang-format on
@@ -67,11 +68,17 @@ GLFWwindow* init() {
   glfwMakeContextCurrent(window);
   set_callbacks(window);
 
+  if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+    std::cerr << "Failed to initialize GLAD" << '\n';
+    exit(EXIT_FAILURE);
+  }
+
   return window;
 }
 
 int main() {
   auto window = init();
+  std::cout << "OpenGL version: " << get_open_gl_version() << '\n';
 
   while (!glfwWindowShouldClose(window)) {
     glfwSwapBuffers(window);
