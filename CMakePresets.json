@@ -2,7 +2,7 @@
   "version": 3,
   "configurePresets": [
     {
-      "name": "VCPKG Default - Ninja",
+      "name": "vcpkg Default - Ninja",
       "description": "Default build using Ninja generator",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/default",

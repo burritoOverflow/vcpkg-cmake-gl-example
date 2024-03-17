@@ -7,7 +7,7 @@ Requires `VCPKG_ROOT` to be set to the path of your `vcpkg` installation, as the
 configuring (requires `ninja`, as the name indicates):
 
 ```bash
- cmake --preset "VCPKG Default - Ninja"
+ cmake --preset "vcpkg Default - Ninja"
 ```
 
 build dir is set to `default`, i.e:
