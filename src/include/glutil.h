@@ -14,17 +14,17 @@ constexpr int WIDTH = 1920;
 constexpr int HEIGHT = 1080;
 
 struct GLFWVersion {
-  int major, minor, revision;
+  int major_, minor_, revision_;
 };
 
-inline struct GLFWVersion get_glfw_version() {
+inline struct GLFWVersion GetGlfwVersion() {
   struct GLFWVersion version {};
-  glfwGetVersion(&version.major, &version.minor, &version.revision);
+  glfwGetVersion(&version.major_, &version.minor_, &version.revision_);
   return version;
 }
 
 // NOTE: requires context initialization to occur beforehand
-inline std::string get_open_gl_version() {
+inline std::string GetOglVersion() {
   const char* gl_version =
       reinterpret_cast<const char*>(glGetString(GL_VERSION));
   if (gl_version == nullptr) {
@@ -34,17 +34,17 @@ inline std::string get_open_gl_version() {
   return std::string{gl_version};
 }
 
-void key_callback(GLFWwindow* window, const int key, const int scancode,
-                  const int action, const int mode);
+void KeyCallback(GLFWwindow* window, const int key, const int scancode,
+                 const int action, const int mode);
 
-void framebuffer_size_callback(GLFWwindow* window, const int width,
-                               const int height);
+void FrameBufferSizeCallback(GLFWwindow* window, const int width,
+                             const int height);
 
-void check_window_success(const GLFWwindow* window);
+void CheckWindowSuccess(const GLFWwindow* window);
 
-void error_callback(int error, const char* description);
+void ErrorCallback(int error, const char* description);
 
-void set_callbacks(GLFWwindow* window);
+void SetCallbacks(GLFWwindow* window);
 
 GLFWwindow* init();
 

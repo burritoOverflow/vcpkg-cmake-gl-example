@@ -15,4 +15,3 @@ find_package(glad CONFIG REQUIRED)
 set(LIBS glfw3 glad::glad)
 
 add_subdirectory(src)
-

@@ -15,3 +15,11 @@ build dir is set to `default`, i.e:
 ```bash
 cmake --build build/default
 ```
+
+Draws the canonical color interpolated triangle.
+
+Shader sources are copied from `shaders` dir to a `shaders` dir in the same output dir as the binary (see `custom_command` added in `src/CMakeLists.txt`). As a result, run the binary directly from that dir as the paths are hardcoded, i.e:
+
+```bash
+cd build/default/bin && ./GLStuff
+```
