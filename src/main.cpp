@@ -9,15 +9,23 @@ int main() {
   auto window = glutil::init();
   std::cout << "OpenGL version: " << glutil::GetOglVersion() << '\n';
 
-  const std::string vert_shader_path = "shaders/vert.glsl";
-  const std::string frag_shader_path = "shaders/frag.glsl";
+  const std::string base_path = "shaders/";
+  const std::string vert_shader_path = base_path + "vert.glsl";
+  const std::string frag_shader_path = base_path + "frag.glsl";
 
   ShaderUtil shader_util{};
-  shader_util.CreateShaderProgram(vert_shader_path, frag_shader_path);
+
+  const bool success =
+      shader_util.CreateShaderProgram(vert_shader_path, frag_shader_path);
+  if (!success) {
+    std::cerr << "Failure creating shader program." << '\n';
+    exit(EXIT_FAILURE);
+  }
+
   VertexUtil vertex_util{};
 
   while (!glfwWindowShouldClose(window)) {
-    glClearColor(0.25f, 0.25f, 0.25f, 1.0f);
+    glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
     vertex_util.Draw();

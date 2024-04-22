@@ -15,6 +15,7 @@ void glutil::KeyCallback(GLFWwindow* window, const int key, const int scancode,
 
 void glutil::FrameBufferSizeCallback(GLFWwindow* window, const int width,
                                      const int height) {
+  std::cout << "Resizing window to " << width << " " << height << '\n';
   glViewport(0, 0, width, height);
 }
 
@@ -45,7 +46,7 @@ GLFWwindow* glutil::init() {
   glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
   GLFWwindow* window =
-      glfwCreateWindow(WIDTH, HEIGHT, "GL Stuff Example", nullptr, nullptr);
+      glfwCreateWindow(WIDTH, HEIGHT, "Basic OGL Example", nullptr, nullptr);
 
   CheckWindowSuccess(window);
   glfwMakeContextCurrent(window);

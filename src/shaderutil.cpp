@@ -12,6 +12,7 @@ bool ShaderUtil::CreateShaderProgram(const std::string& vert_shader_path,
     std::cerr << "Failure compiling vertex shader." << '\n';
     return false;
   }
+
   GLuint fragment_shader = LoadShader(frag_shader_path, GL_FRAGMENT_SHADER);
   if (!fragment_shader) {
     std::cerr << "Failure compiling fragment shader." << '\n';
@@ -23,9 +24,7 @@ bool ShaderUtil::CreateShaderProgram(const std::string& vert_shader_path,
   glAttachShader(shader_program_, fragment_shader);
   glLinkProgram(shader_program_);
 
-  const bool result =
-      CheckShaderErrors(shader_program_, ErrCheckType::kGL_LINK_STATUS);
-  if (!result) {
+  if (!CheckShaderErrors(shader_program_, ErrCheckType::kGL_LINK_STATUS)) {
     return false;
   }
 
@@ -59,7 +58,7 @@ GLuint ShaderUtil::LoadShader(const std::string& shader_file_path,
   if (CheckShaderErrors(shader, ErrCheckType::kGL_COMPILE_STATUS)) {
     return shader;
   } else {
-    return false;
+    return GL_FALSE;
   }
 }
 
