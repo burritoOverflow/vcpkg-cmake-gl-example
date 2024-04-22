@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(GLStuff LANGUAGES CXX)
+# expects the submodule is present
+set(VCPKG_ROOT "vcpkg")
+set(CMAKE_TOOLCHAIN_FILE "${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
+
+project(OGLvcpkgExample LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

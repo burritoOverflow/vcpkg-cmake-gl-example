@@ -1,6 +1,5 @@
 {
-  "dependencies": [
-    "glfw3",
-    "glad"
-  ]
+  "name": "ogl-vcpkg-example-starter",
+  "version": "0.0.1",
+  "dependencies": ["glfw3", "glad"]
 }
