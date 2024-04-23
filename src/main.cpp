@@ -23,6 +23,7 @@ int main() {
   }
 
   VertexUtil vertex_util{};
+  vertex_util.BindVao();
 
   while (!glfwWindowShouldClose(window)) {
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);

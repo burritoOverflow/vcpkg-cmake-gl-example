@@ -18,6 +18,8 @@ class VertexUtil {
     glDeleteVertexArrays(1, &vao_);
   }
 
+  void BindVao();
+
   void Draw();
 
  private:

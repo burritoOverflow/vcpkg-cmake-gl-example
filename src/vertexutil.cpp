@@ -21,7 +21,6 @@ VertexUtil::VertexUtil() {
   glBindVertexArray(0);
 }
 
-void VertexUtil::Draw() {
-  glBindVertexArray(vao_);
-  glDrawArrays(GL_TRIANGLES, 0, 3);
-}
+void VertexUtil::BindVao() { glBindVertexArray(vao_); }
+
+void VertexUtil::Draw() { glDrawArrays(GL_TRIANGLES, 0, 3); }

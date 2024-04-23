@@ -21,6 +21,6 @@ add_dependencies(${PROJECT_NAME} Shaders)
 
 add_custom_command(TARGET Shaders POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E copy_directory
-  "$<TARGET_PROPERTY:GLStuff,SOURCE_DIR>/shaders"
+  "$<TARGET_PROPERTY:${PROJECT_NAME},SOURCE_DIR>/shaders"
   "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/shaders" # copy shaders relative to executable (bin dir; see parent List file)
 )
