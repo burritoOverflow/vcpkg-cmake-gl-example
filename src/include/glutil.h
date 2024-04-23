@@ -9,6 +9,8 @@
 #include <GLFW/glfw3.h>
 // clang-format on
 
+#include "logger.h"
+
 namespace glutil {
 constexpr int WIDTH = 1920;
 constexpr int HEIGHT = 1080;
@@ -28,7 +30,7 @@ inline std::string GetOglVersion() {
   const char* gl_version =
       reinterpret_cast<const char*>(glGetString(GL_VERSION));
   if (gl_version == nullptr) {
-    std::cerr << "Failed to get OpenGL version\n";
+    Logger::LogError("Failed to get OpenGL version\n");
     return std::string{};
   }
   return std::string{gl_version};

@@ -2,6 +2,8 @@
 
 #include <GLFW/glfw3.h>
 
+#include "logger.h"
+
 void glutil::KeyCallback(GLFWwindow* window, const int key, const int scancode,
                          const int action, const int mode) {
   if (action != GLFW_PRESS) {
@@ -15,20 +17,20 @@ void glutil::KeyCallback(GLFWwindow* window, const int key, const int scancode,
 
 void glutil::FrameBufferSizeCallback(GLFWwindow* window, const int width,
                                      const int height) {
-  std::cout << "Resizing window to " << width << " " << height << '\n';
+  Logger::LogInfo("Resizing window to %d %d", width, height);
   glViewport(0, 0, width, height);
 }
 
 void glutil::CheckWindowSuccess(const GLFWwindow* window) {
   if (window == nullptr) {
-    std::cout << "Failed to create GLFW window" << std::endl;
+    Logger::LogError("Failed to create GLFW window");
     glfwTerminate();
     exit(EXIT_FAILURE);
   }
 };
 
 void glutil::ErrorCallback(int error, const char* description) {
-  std::cerr << "Error: " << description << '\n';
+  Logger::LogError("Error: %s", description);
 }
 
 void glutil::SetCallbacks(GLFWwindow* window) {
@@ -55,7 +57,7 @@ GLFWwindow* glutil::init() {
   glfwSwapInterval(1);
 
   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-    std::cerr << "Failed to initialize GLAD" << '\n';
+    Logger::LogError("Failed to initialize GLAD\n");
     exit(EXIT_FAILURE);
   }
 

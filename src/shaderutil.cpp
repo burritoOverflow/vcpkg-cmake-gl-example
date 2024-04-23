@@ -1,21 +1,22 @@
 #include "shaderutil.h"
 
 #include <fstream>
-#include <iostream>
 #include <sstream>
 #include <vector>
+
+#include "logger.h"
 
 bool ShaderUtil::CreateShaderProgram(const std::string& vert_shader_path,
                                      const std::string& frag_shader_path) {
   GLuint vertex_shader = LoadShader(vert_shader_path, GL_VERTEX_SHADER);
   if (!vertex_shader) {
-    std::cerr << "Failure compiling vertex shader." << '\n';
+    Logger::LogError("Failure compiling vertex shader.\n");
     return false;
   }
 
   GLuint fragment_shader = LoadShader(frag_shader_path, GL_FRAGMENT_SHADER);
   if (!fragment_shader) {
-    std::cerr << "Failure compiling fragment shader." << '\n';
+    Logger::LogError("Failure compiling fragment shader.\n");
     return false;
   }
 
@@ -39,7 +40,7 @@ GLuint ShaderUtil::LoadShader(const std::string& shader_file_path,
                               const GLuint shader_type) {
   std::ifstream in_file(shader_file_path);
   if (!in_file.is_open()) {
-    std::cerr << "File not found for path: " << shader_file_path << '\n';
+    Logger::LogError("File not found for path: %s\n", shader_file_path.c_str());
     return false;
   }
 
@@ -75,8 +76,8 @@ bool ShaderUtil::CheckShaderErrors(const GLuint id, const ErrCheckType type) {
         glGetShaderInfoLog(id, err_msg_len, &err_msg_len,
                            compile_err_msg.data());
         compile_err_msg.at(err_msg_len) = '\0';
-        std::cerr << "Error compiling shader; error: " << compile_err_msg.data()
-                  << '\n';
+        Logger::LogError("Error compiling shader; error: %s\n",
+                         compile_err_msg.data());
         success = false;
       }
     }
@@ -88,8 +89,8 @@ bool ShaderUtil::CheckShaderErrors(const GLuint id, const ErrCheckType type) {
         glGetProgramInfoLog(shader_program_, err_msg_len, &err_msg_len,
                             program_link_msg_log.data());
         program_link_msg_log.at(err_msg_len) = '\0';
-        std::cerr << "Error linking shader program: "
-                  << program_link_msg_log.data() << '\n';
+        Logger::LogError("Error linking shader program: %s\n",
+                         program_link_msg_log.data());
         success = false;
       }
     }

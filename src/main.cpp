@@ -1,13 +1,13 @@
 #include <cstdlib>
-#include <iostream>
 
 #include "glutil.h"
+#include "logger.h"
 #include "shaderutil.h"
 #include "vertexutil.h"
 
 int main() {
   auto window = glutil::init();
-  std::cout << "OpenGL version: " << glutil::GetOglVersion() << '\n';
+  Logger::LogInfo("OpenGL version: %s\n", glutil::GetOglVersion().c_str());
 
   const std::string base_path = "shaders/";
   const std::string vert_shader_path = base_path + "vert.glsl";
@@ -18,7 +18,7 @@ int main() {
   const bool success =
       shader_util.CreateShaderProgram(vert_shader_path, frag_shader_path);
   if (!success) {
-    std::cerr << "Failure creating shader program." << '\n';
+    Logger::LogError("Failure creating shader program.\n");
     exit(EXIT_FAILURE);
   }
 

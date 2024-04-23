@@ -1,6 +1,6 @@
 add_executable(${PROJECT_NAME} "")
 
-set(SOURCES vertexutil.cpp shaderutil.cpp glutil.cpp main.cpp)
+set(SOURCES logger.cpp vertexutil.cpp shaderutil.cpp glutil.cpp main.cpp)
 
 target_sources(${PROJECT_NAME} PRIVATE ${SOURCES})
 
