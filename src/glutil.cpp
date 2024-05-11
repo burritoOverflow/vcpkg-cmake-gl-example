@@ -21,6 +21,16 @@ void glutil::FrameBufferSizeCallback(GLFWwindow* window, const int width,
   glViewport(0, 0, width, height);
 }
 
+void glutil::WindowMouseCallback(GLFWwindow* window, double x, double y) {
+  Logger::LogInfo("MouseCallback - x position: %.2f, y position: %.2f\n", x, y);
+}
+
+void glutil::WindowScrollCallback(GLFWwindow* window, double x_offset,
+                                  double y_offset) {
+  Logger::LogInfo("ScrollCallback - x offset: %.2f, y offset: %.2f\n", x_offset,
+                  y_offset);
+}
+
 void glutil::CheckWindowSuccess(const GLFWwindow* window) {
   if (window == nullptr) {
     Logger::LogError("Failed to create GLFW window");
@@ -37,6 +47,8 @@ void glutil::SetCallbacks(GLFWwindow* window) {
   glfwSetErrorCallback(ErrorCallback);
   glfwSetFramebufferSizeCallback(window, FrameBufferSizeCallback);
   glfwSetKeyCallback(window, KeyCallback);
+  glfwSetCursorPosCallback(window, WindowMouseCallback);
+  glfwSetScrollCallback(window, WindowScrollCallback);
 }
 
 GLFWwindow* glutil::init() {

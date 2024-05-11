@@ -5,6 +5,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 // clang-format on
+#include <array>
 
 // (x,y,z) and (r,g,b) for each vertex
 static constexpr int N_ELEMS = 6 * 3;
@@ -27,7 +28,7 @@ class VertexUtil {
   GLuint vbo_;
 
   // borrowed from LearnOpenGL (https://github.com/JoeyDeVries/LearnOpenGL)
-  const float vertices_[N_ELEMS] = {
+  const std::array<float, N_ELEMS> vertices_ = {
       // positions          // colors
       0.75f,  -0.75f, 0.0f, 1.0f, 0.0f, 0.0f,  // bottom right
       -0.75f, -0.75f, 0.0f, 0.0f, 1.0f, 0.0f,  // bottom left

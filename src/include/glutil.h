@@ -36,6 +36,10 @@ inline std::string GetOglVersion() {
   return std::string{gl_version};
 }
 
+void WindowMouseCallback(GLFWwindow* window, double x, double y);
+
+void WindowScrollCallback(GLFWwindow* window, double x, double y);
+
 void KeyCallback(GLFWwindow* window, const int key, const int scancode,
                  const int action, const int mode);
 

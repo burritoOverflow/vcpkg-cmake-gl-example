@@ -7,6 +7,7 @@
 
 int main() {
   auto window = glutil::init();
+
   Logger::LogInfo("OpenGL version: %s\n", glutil::GetOglVersion().c_str());
 
   const std::string base_path = "shaders/";
