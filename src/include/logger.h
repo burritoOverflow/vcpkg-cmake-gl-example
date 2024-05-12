@@ -2,6 +2,8 @@
 #define LOGGER_H
 
 #include <cstdio>
+#include <glm/fwd.hpp>
+#include <glm/glm.hpp>
 #include <string>
 
 class Logger {

@@ -6,9 +6,12 @@
 #include <GLFW/glfw3.h>
 // clang-format on
 
+#include <glm/fwd.hpp>
+#include <glm/glm.hpp>
 #include <string>
 
 enum class ErrCheckType { kGL_COMPILE_STATUS, kGL_LINK_STATUS };
+enum class MatrixType { kMODEL_MATRIX, kVIEW_MATRIX, kPROJECTION_MATRIX };
 
 class ShaderUtil {
  public:
@@ -19,13 +22,29 @@ class ShaderUtil {
   bool CreateShaderProgram(const std::string &vert_shader_path,
                            const std::string &frag_shader_path);
 
+  glm::mat4 GetMatrix(const MatrixType matrix_type);
+
+  void SetMatrixType(const MatrixType matrix_type, const glm::mat4 &matrix);
+
  private:
   GLuint shader_program_;
+  GLuint model_location_;
+  GLuint view_location_;
+  GLuint projection_location_;
+
+  glm::mat4 model_matrix_;
+  glm::mat4 view_matrix_;
+  glm::mat4 projection_matrix_;
 
   GLuint LoadShader(const std::string &shader_file_path,
                     const GLuint shader_type);
 
   bool CheckShaderErrors(const GLuint shader_id, const ErrCheckType type);
+
+  // wrapper to set the location for the given matrix
+  GLuint SetMatrix(const std::string &name, const glm::mat4 &matrix);
+
+  void SetModelViewProjectionMatrix();
 };
 
 #endif
