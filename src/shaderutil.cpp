@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <glm/detail/qualifier.hpp>
+#include <glm/ext/matrix_transform.hpp>
 #include <glm/fwd.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -161,12 +162,11 @@ void ShaderUtil::SetModelViewProjectionMatrix() {
   model_matrix_ = glm::mat4(1.0f);
   SetMatrixType(MatrixType::kMODEL_MATRIX, model_matrix_);
 
-  view_matrix_ = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -3.0f));
-
+  view_matrix_ = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0, -5.0f));
   SetMatrixType(MatrixType::kVIEW_MATRIX, view_matrix_);
 
   projection_matrix_ = glm::perspective(
-      glm::radians(35.0f),
+      glm::radians(25.0f),
       static_cast<float>(glutil::WIDTH) / static_cast<float>(glutil::HEIGHT),
       0.1f, 100.0f);
   SetMatrixType(MatrixType::kPROJECTION_MATRIX, projection_matrix_);
