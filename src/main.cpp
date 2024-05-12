@@ -7,7 +7,8 @@
 #include "vertexutil.h"
 
 static void SetRotationDegrees(float &rotation_degrees) {
-  if (rotation_degrees >= 360.0f) {
+  static const float MAX_DEGREES = 360.f;
+  if (rotation_degrees >= MAX_DEGREES) {
     rotation_degrees = 0.0f;
   } else {
     rotation_degrees += 1.0f;
@@ -19,14 +20,18 @@ int main() {
 
   Logger::LogInfo("OpenGL version: %s\n", glutil::GetOglVersion().c_str());
 
-  const std::string base_path = "shaders/";
-  const std::string vert_shader_path = base_path + "vert.glsl";
-  const std::string frag_shader_path = base_path + "frag.glsl";
+  const std::string BASE_PATH = "shaders/";
+  const std::string VERT_SHADER_PATH = BASE_PATH + "vert.glsl";
+  const std::string FRAG_SHADER_PATH = BASE_PATH + "frag.glsl";
+
+  // name for the uniform associated with rotation
+  const std::string ROTATION_DEGREES_STR = "rotationDegrees";
 
   ShaderUtil shader_util{};
 
   const bool success =
-      shader_util.CreateShaderProgram(vert_shader_path, frag_shader_path);
+      shader_util.CreateShaderProgram(VERT_SHADER_PATH, FRAG_SHADER_PATH);
+
   if (!success) {
     Logger::LogError("Failure creating shader program.\n");
     exit(EXIT_FAILURE);
@@ -42,13 +47,7 @@ int main() {
     glClear(GL_COLOR_BUFFER_BIT);
 
     vertex_util.Draw();
-
-    // TODO find a more efficient way to do this
-    auto model = shader_util.GetMatrix(MatrixType::kMODEL_MATRIX);
-    model = glm::rotate(model, glm::radians(rotation_degrees),
-                        glm::vec3(0.0f, 4.0f, 0.0f));
-    shader_util.SetMatrixType(MatrixType::kMODEL_MATRIX, model);
-
+    shader_util.SetUniformFloat(rotation_degrees, ROTATION_DEGREES_STR);
     SetRotationDegrees(rotation_degrees);
 
     glfwSwapBuffers(window);

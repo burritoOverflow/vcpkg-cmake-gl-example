@@ -112,6 +112,18 @@ bool ShaderUtil::CheckShaderErrors(const GLuint id, const ErrCheckType type) {
   return success;
 }
 
+GLuint ShaderUtil::SetUniformFloat(const float f, const std::string& name) {
+  const char* name_c_str = name.c_str();
+  GLuint location = glGetUniformLocation(shader_program_, name_c_str);
+  glUniform1f(location, f);
+  // TODO revise this
+  this->uniform_locations_[name] = location;
+  Logger::LogInfo("Setting uniform float with name '%s and value: %.2f\n",
+                  name_c_str, f);
+  return location;
+}
+
+// get the matrix from this state associated with the provided "type"
 glm::mat4 ShaderUtil::GetMatrix(const MatrixType matrix_type) {
   switch (matrix_type) {
     case MatrixType::kMODEL_MATRIX: {
@@ -132,17 +144,20 @@ void ShaderUtil::SetMatrixType(const MatrixType matrix_type,
   switch (matrix_type) {
     case MatrixType::kMODEL_MATRIX: {
       model_type_str = MODEL_STR;
-      model_location_ = SetMatrix(model_type_str, matrix);
+      auto model_location = SetMatrix(model_type_str, matrix);
+      this->uniform_locations_[model_type_str] = model_location;
       break;
     }
     case MatrixType::kVIEW_MATRIX: {
       model_type_str = VIEW_STR;
-      view_location_ = SetMatrix(model_type_str, matrix);
+      auto view_location = SetMatrix(model_type_str, matrix);
+      this->uniform_locations_[model_type_str] = view_location;
       break;
     }
     case MatrixType::kPROJECTION_MATRIX: {
       model_type_str = PROJECTION_STR;
-      projection_location_ = SetMatrix(model_type_str, matrix);
+      auto projection_location = SetMatrix(model_type_str, matrix);
+      this->uniform_locations_[model_type_str] = projection_location;
       break;
     }
     default:
@@ -159,6 +174,7 @@ GLuint ShaderUtil::SetMatrix(const std::string& name, const glm::mat4& matrix) {
 }
 
 void ShaderUtil::SetModelViewProjectionMatrix() {
+  // boilerplate hardcoded configuration
   model_matrix_ = glm::mat4(1.0f);
   SetMatrixType(MatrixType::kMODEL_MATRIX, model_matrix_);
 

@@ -8,6 +8,7 @@
 
 #include <glm/fwd.hpp>
 #include <glm/glm.hpp>
+#include <map>
 #include <string>
 
 enum class ErrCheckType { kGL_COMPILE_STATUS, kGL_LINK_STATUS };
@@ -26,15 +27,19 @@ class ShaderUtil {
 
   void SetMatrixType(const MatrixType matrix_type, const glm::mat4 &matrix);
 
+  GLuint SetUniformFloat(const float f, const std::string &name);
+
  private:
   GLuint shader_program_;
-  GLuint model_location_;
-  GLuint view_location_;
-  GLuint projection_location_;
 
   glm::mat4 model_matrix_;
   glm::mat4 view_matrix_;
   glm::mat4 projection_matrix_;
+
+  // collect each uniform with the name and identifer
+  // where k is the name for the uniform and v is the returned GLuint location
+  // for this new Uniform
+  std::map<std::string, GLuint> uniform_locations_;
 
   GLuint LoadShader(const std::string &shader_file_path,
                     const GLuint shader_type);
