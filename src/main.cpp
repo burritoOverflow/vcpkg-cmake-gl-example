@@ -1,8 +1,5 @@
-#define GLM_ENABLE_EXPERIMENTAL  // for "to_string"
-
 #include <cstdlib>
 #include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/string_cast.hpp>
 
 #include "glutil.h"
 #include "logger.h"
@@ -84,7 +81,7 @@ int main() {
     SetRotationDegrees(rotation_degrees);
 
     const float camera_speed = 0.9 * delta_time;
-    // UpdateCameraPosition(shader_util.camera_, op_type, camera_speed);
+    UpdateCameraPosition(shader_util.camera_, op_type, camera_speed);
 
     // TODO find more efficient way to do this
     const auto view_matrix = glm::lookAt(shader_util.camera_.camera_position_,

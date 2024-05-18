@@ -178,6 +178,7 @@ void ShaderUtil::SetMatrixType(const MatrixType matrix_type,
                   mat_str.c_str());
 }
 
+// set the unifrm matrix4 with "name" to "matrix"
 GLuint ShaderUtil::GlSetMatrix(const std::string& name,
                                const glm::mat4& matrix) {
   GLuint location = glGetUniformLocation(shader_program_, name.c_str());
