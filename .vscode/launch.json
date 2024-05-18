@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run OGLExample",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/default/bin/OGLvcpkgExample",
+      "cwd": "${workspaceFolder}/build/default/bin",
+      "showDisplayString": true,
+      "stopAtEntry": false,
+      "externalConsole": false,
+      "preLaunchTask": "Run VCPKG Build",
+      "linux": {
+        "MIMode": "gdb",
+        "miDebuggerPath": "/usr/bin/gdb"
+      }
+    }
+  ]
+}

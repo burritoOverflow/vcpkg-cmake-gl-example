@@ -21,14 +21,15 @@ static void SetRotationDegrees(float &rotation_degrees) {
 }
 static void UpdateCameraPosition(Camera &camera, OpType &op_type,
                                  const float camera_speed) {
+  const static float UPPER_BOUND = 10.0;
+  const static float LOWER_BOUND = 3.0;
   auto z_position = camera.camera_position_.z;
 
   // these are unitutive, admittedly
-  if (z_position >= 10.0 && op_type == OpType::kSUBTRACTION) {
+  if (z_position >= UPPER_BOUND && op_type == OpType::kSUBTRACTION) {
     op_type = OpType::kADDITION;
   }
-
-  if (z_position <= 3.0 && op_type == OpType::kADDITION) {
+  if (z_position <= LOWER_BOUND && op_type == OpType::kADDITION) {
     op_type = OpType::kSUBTRACTION;
   }
 
@@ -83,7 +84,7 @@ int main() {
     SetRotationDegrees(rotation_degrees);
 
     const float camera_speed = 0.9 * delta_time;
-    UpdateCameraPosition(shader_util.camera_, op_type, camera_speed);
+    // UpdateCameraPosition(shader_util.camera_, op_type, camera_speed);
 
     // TODO find more efficient way to do this
     const auto view_matrix = glm::lookAt(shader_util.camera_.camera_position_,
