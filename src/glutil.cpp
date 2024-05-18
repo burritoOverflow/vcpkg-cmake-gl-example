@@ -59,8 +59,8 @@ GLFWwindow* glutil::init() {
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
   glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
-  GLFWwindow* window =
-      glfwCreateWindow(WIDTH, HEIGHT, "Basic OGL Example", nullptr, nullptr);
+  GLFWwindow* window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT,
+                                        "Basic OGL Example", nullptr, nullptr);
 
   CheckWindowSuccess(window);
   glfwMakeContextCurrent(window);

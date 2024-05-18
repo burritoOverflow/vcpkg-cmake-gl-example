@@ -135,6 +135,9 @@ glm::mat4 ShaderUtil::GetMatrix(const MatrixType matrix_type) {
     case MatrixType::kPROJECTION_MATRIX: {
       return this->projection_matrix_;
     }
+    default:  // meh this should never occur
+      Logger::LogError("Incorrect MatrixType provided: %s", matrix_type);
+      return glm::mat4();
   }
 }
 
@@ -178,12 +181,22 @@ void ShaderUtil::SetModelViewProjectionMatrix() {
   model_matrix_ = glm::mat4(1.0f);
   SetMatrixType(MatrixType::kMODEL_MATRIX, model_matrix_);
 
-  view_matrix_ = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0, -5.0f));
+  this->camera_.camera_position_ = glm::vec3(0.0f, 0.0f, 4.5f);
+  this->camera_.camera_front_ = glm::vec3(0.0f, 0.0f, -1.0f);
+  this->camera_.camera_up_ = glm::vec3(0.0f, 1.0f, 0.0f);
+
+  // also borrowed from LearnOpenGL:
+  // https://github.com/JoeyDeVries/LearnOpenGL/blob/master/src/1.getting_started/7.3.camera_mouse_zoom/camera_mouse_zoom.cpp#L23
+  view_matrix_ =
+      glm::lookAt(this->camera_.camera_position_,
+                  this->camera_.camera_position_ + this->camera_.camera_front_,
+                  this->camera_.camera_up_);
   SetMatrixType(MatrixType::kVIEW_MATRIX, view_matrix_);
 
-  projection_matrix_ = glm::perspective(
-      glm::radians(25.0f),
-      static_cast<float>(glutil::WIDTH) / static_cast<float>(glutil::HEIGHT),
-      0.1f, 100.0f);
+  projection_matrix_ =
+      glm::perspective(glm::radians(25.0f),
+                       static_cast<float>(glutil::SCREEN_WIDTH) /
+                           static_cast<float>(glutil::SCREEN_HEIGHT),
+                       0.1f, 100.0f);
   SetMatrixType(MatrixType::kPROJECTION_MATRIX, projection_matrix_);
 }

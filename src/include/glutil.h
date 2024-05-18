@@ -12,8 +12,8 @@
 #include "logger.h"
 
 namespace glutil {
-constexpr int WIDTH = 1920;
-constexpr int HEIGHT = 1080;
+constexpr int SCREEN_WIDTH = 1920;
+constexpr int SCREEN_HEIGHT = 1080;
 
 struct GLFWVersion {
   int major_, minor_, revision_;

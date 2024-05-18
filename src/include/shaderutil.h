@@ -15,8 +15,16 @@ enum class ErrCheckType { kGL_COMPILE_STATUS, kGL_LINK_STATUS };
 enum class MatrixType { kMODEL_MATRIX, kVIEW_MATRIX, kPROJECTION_MATRIX };
 
 class ShaderUtil {
+  struct Camera {
+    glm::vec3 camera_position_;
+    glm::vec3 camera_front_;
+    glm::vec3 camera_up_;
+  };
+
  public:
-  ShaderUtil() : shader_program_(0) {}
+  ShaderUtil() : shader_program_(0), camera_(Camera{}) {}
+
+  Camera camera_;
 
   inline void Cleanup() { glDeleteProgram(shader_program_); }
 
