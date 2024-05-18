@@ -14,13 +14,13 @@
 enum class ErrCheckType { kGL_COMPILE_STATUS, kGL_LINK_STATUS };
 enum class MatrixType { kMODEL_MATRIX, kVIEW_MATRIX, kPROJECTION_MATRIX };
 
-class ShaderUtil {
-  struct Camera {
-    glm::vec3 camera_position_;
-    glm::vec3 camera_front_;
-    glm::vec3 camera_up_;
-  };
+struct Camera {
+  glm::vec3 camera_position_;  // eye
+  glm::vec3 camera_front_;     // at
+  glm::vec3 camera_up_;        // up
+};
 
+class ShaderUtil {
  public:
   ShaderUtil() : shader_program_(0), camera_(Camera{}) {}
 
@@ -31,7 +31,7 @@ class ShaderUtil {
   bool CreateShaderProgram(const std::string &vert_shader_path,
                            const std::string &frag_shader_path);
 
-  glm::mat4 GetMatrix(const MatrixType matrix_type);
+  glm::mat4 &GetMatrix(const MatrixType matrix_type);
 
   void SetMatrixType(const MatrixType matrix_type, const glm::mat4 &matrix);
 
@@ -55,7 +55,7 @@ class ShaderUtil {
   bool CheckShaderErrors(const GLuint shader_id, const ErrCheckType type);
 
   // wrapper to set the location for the given matrix
-  GLuint SetMatrix(const std::string &name, const glm::mat4 &matrix);
+  GLuint GlSetMatrix(const std::string &name, const glm::mat4 &matrix);
 
   void SetModelViewProjectionMatrix();
 };

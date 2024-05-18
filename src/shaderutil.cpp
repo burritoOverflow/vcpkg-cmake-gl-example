@@ -1,3 +1,5 @@
+#define GLM_ENABLE_EXPERIMENTAL  // for "to_string"
+
 #include "shaderutil.h"
 
 #include <fstream>
@@ -7,6 +9,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/string_cast.hpp>
 #include <sstream>
 #include <stdexcept>
 #include <vector>
@@ -124,7 +127,7 @@ GLuint ShaderUtil::SetUniformFloat(const float f, const std::string& name) {
 }
 
 // get the matrix from this state associated with the provided "type"
-glm::mat4 ShaderUtil::GetMatrix(const MatrixType matrix_type) {
+glm::mat4& ShaderUtil::GetMatrix(const MatrixType matrix_type) {
   switch (matrix_type) {
     case MatrixType::kMODEL_MATRIX: {
       return this->model_matrix_;
@@ -137,7 +140,6 @@ glm::mat4 ShaderUtil::GetMatrix(const MatrixType matrix_type) {
     }
     default:  // meh this should never occur
       Logger::LogError("Incorrect MatrixType provided: %s", matrix_type);
-      return glm::mat4();
   }
 }
 
@@ -147,19 +149,23 @@ void ShaderUtil::SetMatrixType(const MatrixType matrix_type,
   switch (matrix_type) {
     case MatrixType::kMODEL_MATRIX: {
       model_type_str = MODEL_STR;
-      auto model_location = SetMatrix(model_type_str, matrix);
+      this->model_matrix_ = matrix;
+      auto model_location = GlSetMatrix(model_type_str, this->model_matrix_);
       this->uniform_locations_[model_type_str] = model_location;
       break;
     }
     case MatrixType::kVIEW_MATRIX: {
       model_type_str = VIEW_STR;
-      auto view_location = SetMatrix(model_type_str, matrix);
+      this->view_matrix_ = matrix;
+      auto view_location = GlSetMatrix(model_type_str, this->view_matrix_);
       this->uniform_locations_[model_type_str] = view_location;
       break;
     }
     case MatrixType::kPROJECTION_MATRIX: {
       model_type_str = PROJECTION_STR;
-      auto projection_location = SetMatrix(model_type_str, matrix);
+      this->projection_matrix_ = matrix;
+      auto projection_location =
+          GlSetMatrix(model_type_str, this->projection_matrix_);
       this->uniform_locations_[model_type_str] = projection_location;
       break;
     }
@@ -167,10 +173,13 @@ void ShaderUtil::SetMatrixType(const MatrixType matrix_type,
       throw std::invalid_argument{"Matrix type not found"};
   }
 
-  Logger::LogInfo("Setting %s matrix with value\n", model_type_str.c_str());
+  const auto mat_str = glm::to_string(matrix);
+  Logger::LogInfo("Setting %s matrix with value: %s\n", model_type_str.c_str(),
+                  mat_str.c_str());
 }
 
-GLuint ShaderUtil::SetMatrix(const std::string& name, const glm::mat4& matrix) {
+GLuint ShaderUtil::GlSetMatrix(const std::string& name,
+                               const glm::mat4& matrix) {
   GLuint location = glGetUniformLocation(shader_program_, name.c_str());
   glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
   return location;
@@ -188,8 +197,7 @@ void ShaderUtil::SetModelViewProjectionMatrix() {
   // also borrowed from LearnOpenGL:
   // https://github.com/JoeyDeVries/LearnOpenGL/blob/master/src/1.getting_started/7.3.camera_mouse_zoom/camera_mouse_zoom.cpp#L23
   view_matrix_ =
-      glm::lookAt(this->camera_.camera_position_,
-                  this->camera_.camera_position_ + this->camera_.camera_front_,
+      glm::lookAt(this->camera_.camera_position_, this->camera_.camera_front_,
                   this->camera_.camera_up_);
   SetMatrixType(MatrixType::kVIEW_MATRIX, view_matrix_);
 
