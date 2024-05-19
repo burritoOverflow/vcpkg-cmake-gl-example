@@ -8,7 +8,7 @@
 
 enum class OpType { kADDITION, kSUBTRACTION };
 
-static void SetRotationDegrees(float &rotation_degrees) {
+static void SetRotationDegrees(float& rotation_degrees) {
   static const float MAX_DEGREES = 360.f;
   if (rotation_degrees >= MAX_DEGREES) {
     rotation_degrees = 0.0f;
@@ -16,7 +16,8 @@ static void SetRotationDegrees(float &rotation_degrees) {
     rotation_degrees += 1.0f;
   }
 }
-static void UpdateCameraPosition(Camera &camera, OpType &op_type,
+static void UpdateCameraPosition(Camera& camera,
+                                 OpType& op_type,
                                  const float camera_speed) {
   const static float UPPER_BOUND = 10.0;
   const static float LOWER_BOUND = 3.0;
@@ -24,9 +25,16 @@ static void UpdateCameraPosition(Camera &camera, OpType &op_type,
 
   // these are unitutive, admittedly
   if (z_position >= UPPER_BOUND && op_type == OpType::kSUBTRACTION) {
+    Logger::LogInfo(
+        "Upper bound of %.2f exceeded with value: %.2f; changing to addition\n",
+        UPPER_BOUND, z_position);
     op_type = OpType::kADDITION;
   }
   if (z_position <= LOWER_BOUND && op_type == OpType::kADDITION) {
+    Logger::LogInfo(
+        "Lower bound of %.2f exceeded with value: %.2f; changing to "
+        "subtraction\n",
+        LOWER_BOUND, z_position);
     op_type = OpType::kSUBTRACTION;
   }
 

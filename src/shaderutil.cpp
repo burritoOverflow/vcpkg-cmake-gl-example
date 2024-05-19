@@ -2,6 +2,7 @@
 
 #include "shaderutil.h"
 
+#include <filesystem>
 #include <fstream>
 #include <glm/detail/qualifier.hpp>
 #include <glm/ext/matrix_transform.hpp>
@@ -57,7 +58,9 @@ GLuint ShaderUtil::LoadShader(const std::string& shader_file_path,
                               const GLuint shader_type) {
   std::ifstream in_file(shader_file_path);
   if (!in_file.is_open()) {
-    Logger::LogError("File not found for path: %s\n", shader_file_path.c_str());
+    const auto current_path = std::filesystem::current_path();
+    Logger::LogError("File not found for path: %s; expected at cwd ('%s')\n",
+                     shader_file_path.c_str(), current_path.c_str());
     return false;
   }
 
@@ -121,7 +124,7 @@ GLuint ShaderUtil::SetUniformFloat(const float f, const std::string& name) {
   glUniform1f(location, f);
   // TODO revise this
   this->uniform_locations_[name] = location;
-  Logger::LogInfo("Setting uniform float with name '%s and value: %.2f\n",
+  Logger::LogInfo("Setting uniform float with name '%s' and value: %.2f\n",
                   name_c_str, f);
   return location;
 }
