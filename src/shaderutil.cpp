@@ -118,7 +118,7 @@ GLuint ShaderUtil::SetUniformFloat(const float f, const std::string& name) {
   glUniform1f(location, f);
   // TODO revise this
   this->uniform_locations_[name] = location;
-  Logger::LogInfo("Setting uniform float with name '%s and value: %.2f\n",
+  Logger::LogInfo("Setting uniform float with name '%s' and value: %.2f\n",
                   name_c_str, f);
   return location;
 }
