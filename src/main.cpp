@@ -16,8 +16,7 @@ static void SetRotationDegrees(float& rotation_degrees) {
     rotation_degrees += 1.0f;
   }
 }
-static void UpdateCameraPosition(Camera& camera,
-                                 OpType& op_type,
+static void UpdateCameraPosition(Camera& camera, OpType& op_type,
                                  const float camera_speed) {
   const static float UPPER_BOUND = 10.0;
   const static float LOWER_BOUND = 3.0;

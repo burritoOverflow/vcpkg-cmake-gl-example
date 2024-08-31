@@ -1,0 +1,6 @@
+BasedOnStyle: Google
+ColumnLimit: 80
+SortIncludes: false
+IndentPPDirectives: AfterHash
+DerivePointerAlignment: false
+PointerAlignment: Left
